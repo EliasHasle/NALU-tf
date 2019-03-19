@@ -21,7 +21,7 @@ def nalu(input_layer, num_outputs):
 
     # operations according to paper
     W = tf.tanh(W_hat) * tf.sigmoid(M_hat)
-    m = tf.exp(tf.matmul(tf.log(tf.abs(input_layer) + 1e-7), W))
+    m = tf.asinh(tf.matmul(tf.sinh(input_layer), W))
     g = tf.sigmoid(tf.matmul(input_layer, G))
     a = tf.matmul(input_layer, W)
     out = g * a + (1 - g) * m
