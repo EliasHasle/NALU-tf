@@ -21,7 +21,10 @@ def nalu(input_layer, num_outputs):
 
     # operations according to paper
     W = tf.tanh(W_hat) * tf.sigmoid(M_hat)
-    m = tf.asinh(tf.matmul(tf.sinh(input_layer), W))
+
+    #asinh-space, as suggested by Reddit user fdskjfdskhfkjds at https://www.reddit.com/r/MachineLearning/comments/94833t/neural_arithmetic_logic_units/e3u974x/
+    #Does not seem to work on the example data here. (The example dataset is way too simple, and the setup basically overfits.)
+    m = tf.sinh(tf.matmul(tf.asinh(input_layer), W))
     g = tf.sigmoid(tf.matmul(input_layer, G))
     a = tf.matmul(input_layer, W)
     out = g * a + (1 - g) * m
